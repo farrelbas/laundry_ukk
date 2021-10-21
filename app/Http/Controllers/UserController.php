@@ -3,11 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\UserModel;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string',
+            'username' => 'required',
+            'password' => 'required|min:6',
+            'role' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return Response()->json($validator->errors());
+        }
+
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->role = $request->role;
+
+        $user->save();
+
+        return Response()->json(['message' => 'Berhasil mendaftar']);
+    }
     public function index()
     {
         $data = UserModel::get();
