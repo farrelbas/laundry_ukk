@@ -12,6 +12,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
+    //CRUD
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -34,6 +36,10 @@ class UserController extends Controller
 
         return Response()->json(['message' => 'Berhasil mendaftar']);
     }
+
+
+    //CRUD
+
     public function index()
     {
         $data = UserModel::get();

@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 
@@ -34,11 +34,11 @@ class AuthController extends Controller
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['message' => 'invalid token']);
             }
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredExceptions $e) {
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
             return response()->json(['message' => 'Token Expired']);
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidExceptions $e) {
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return response()->json(['message' => 'Invalid Token']);
-        } catch (Tymon\JWTAuth\Exceptions\JWTExceptions $e) {
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['message' => 'Token Absent']);
         }
 
